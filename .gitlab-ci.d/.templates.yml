@@ -1,0 +1,16 @@
+# === Rules ===============================================
+
+.run-on-only-main:
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'main'
+
+# === Setup ===============================================
+
+.gke-publish-preparation:
+  before_script:
+    - echo "$GOOGLE_KEY" > key.json
+    - gcloud auth activate-service-account --key-file key.json
+    - gcloud config set compute/zone ${ZONE}
+    - gcloud config set project ${GOOGLE_PRID}
+  tags:
+    - build

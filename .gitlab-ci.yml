@@ -1,0 +1,16 @@
+variables:
+  DOCKER_IMAGE_GKE_SDK: 'google/cloud-sdk:latest'
+  IMG_HOST: 'gcr.io'
+  GOOGLE_PRID: 'nafa-366905'
+  CLUSTER: 'dev-cluster'
+  ZONE: 'europe-west6-a'
+  FORCE_COLOR: '1'
+
+stages:
+  - test
+  - publish
+
+include:
+  - local: "/.gitlab-ci.d/.templates.yml" # Move to a separate scope
+  - local: "/.gitlab-ci.d/merge-request.yml"
+  - local: "/.gitlab-ci.d/main.yml"

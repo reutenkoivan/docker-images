@@ -1,0 +1,18 @@
+# === Playwright ============================================
+
+main:playwright:publish:
+  image: $DOCKER_IMAGE_GKE_SDK
+  stage: publish
+  extends:
+    - .gke-publish-preparation
+  variables:
+    GKE_CONFIG_PATH: 'images/playwright/cloudbuild.yaml'
+    GKE_SUBSTITUTIONS: '_NODE_VERSION=${NODE_VERSION},_PLAYWRIGHT_VERSION=${PLAYWRIGHT_VERSION},_PNPM_VERSION=${PNPM_VERSION},_IMG_HOST=${IMG_HOST},_GOOGLE_PRID=${GOOGLE_PRID},_CI_PROJECT_NAME=${CI_PROJECT_NAME}'
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'main'
+      changes:
+        - "images/playwright/**"
+  script:
+    - ./images/playwright/prepare-build.sh && gcloud builds submit --config=${GKE_CONFIG_PATH} --substitutions=${GKE_SUBSTITUTIONS}
+  tags:
+    - build

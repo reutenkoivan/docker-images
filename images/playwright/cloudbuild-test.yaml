@@ -1,0 +1,13 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '--build-arg'
+      - 'NODE_VERSION=${_NODE_VERSION}'
+      - '--build-arg'
+      - 'PLAYWRIGHT_VERSION=${_PLAYWRIGHT_VERSION}'
+      - '--build-arg'
+      - 'PNPM_VERSION=${_PNPM_VERSION}'
+      - '--tag'
+      - '${_IMG_HOST}/${_GOOGLE_PRID}/${_CI_PROJECT_NAME}:playwright${_PLAYWRIGHT_VERSION}-node${_NODE_VERSION}-pnpm${_PNPM_VERSION}'
+      - '.'
